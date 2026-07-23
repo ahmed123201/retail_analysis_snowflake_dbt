@@ -1,0 +1,59 @@
+version: 2
+
+models:
+  - name: mart_sales_by_category_region
+    description: Revenue and order metrics aggregated by product category and customer region.
+    columns:
+      - name: category
+        description: Product category.
+        tests:
+          - not_null
+      - name: region
+        description: Customer region.
+        tests:
+          - not_null
+      - name: total_revenue
+        description: Sum of total_amount for this category/region combination.
+        tests:
+          - not_null
+
+  - name: mart_sales_by_store
+    description: Revenue and efficiency metrics per store.
+    columns:
+      - name: store_id
+        description: Unique store identifier.
+        tests:
+          - unique
+          - not_null
+      - name: total_revenue
+        tests:
+          - not_null
+      - name: revenue_per_employee
+        description: Total revenue divided by employee count for the store.
+
+  - name: mart_customer_segmentation
+    description: Customer-level RFM-style segmentation.
+    columns:
+      - name: customer_id
+        description: Unique customer identifier.
+        tests:
+          - unique
+          - not_null
+      - name: customer_segment
+        description: Assigned segment label.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['High-value loyal', 'High-value at-risk', 'Low-value active', 'Lapsed']
+
+  - name: mart_monthly_revenue_trend
+    description: Revenue aggregated by month, for trend analysis.
+    columns:
+      - name: sale_month
+        description: First day of the month for this revenue total.
+        tests:
+          - not_null
+          - unique
+      - name: total_revenue
+        tests:
+          - not_null
